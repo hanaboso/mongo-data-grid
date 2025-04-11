@@ -14,7 +14,7 @@ use MongoDataGridTests\TestCaseAbstract;
 final class DatabaseConfigurationTest extends TestCaseAbstract
 {
 
-    protected const   DATABASE = 'datagrid1';
+    protected const string DATABASE = 'datagrid1';
 
     /**
      * @throws Exception
@@ -32,7 +32,7 @@ final class DatabaseConfigurationTest extends TestCaseAbstract
         /** @var Document[] $documents */
         $documents = $this->dm->getRepository(Document::class)->findAll();
         self::assertEquals(1, count($documents));
-        self::assertEquals('Document', $documents[0]->getString());
+        self::assertSame('Document', $documents[0]->getString());
     }
 
 }

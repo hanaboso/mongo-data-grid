@@ -23,16 +23,16 @@ use Throwable;
 final class FilterTest extends TestCaseAbstract
 {
 
-    protected const PAGING = 'paging';
+    protected const string PAGING = 'paging';
 
-    private const DATETIME = 'Y-m-d H:i:s';
-    private const SORTER   = 'sorter';
-    private const FILTER   = 'filter';
-    private const PAGE     = 'page';
-    private const SEARCH   = 'search';
-    private const NATIVE   = 'native';
+    private const string DATETIME = 'Y-m-d H:i:s';
+    private const string SORTER   = 'sorter';
+    private const string FILTER   = 'filter';
+    private const string PAGE     = 'page';
+    private const string SEARCH   = 'search';
+    private const string NATIVE   = 'native';
 
-    private const ITEMS_PER_PAGE = 'itemsPerPage';
+    private const string ITEMS_PER_PAGE = 'itemsPerPage';
 
     /**
      * @var DateTime
@@ -1209,10 +1209,10 @@ final class FilterTest extends TestCaseAbstract
                     ],
                 ),
             )->toArray();
-            self::assertEquals(TRUE, FALSE);
+            self::fail();
         } catch (Exception $e) {
             self::assertEquals(GridException::SORT_COLS_ERROR, $e->getCode());
-            self::assertEquals(
+            self::assertSame(
                 "Column 'Unknown' cannot be used for sorting! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::orderCols'?",
                 $e->getMessage(),
             );
@@ -1428,7 +1428,7 @@ final class FilterTest extends TestCaseAbstract
             ],
             $dto->getParamsForHeader(),
         );
-        self::assertEquals(3, $dto->getTotal());
+        self::assertSame(3, $dto->getTotal());
 
         $dto    = new GridRequestDto([self::SEARCH => 'String 9']);
         $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
@@ -1790,16 +1790,16 @@ final class FilterTest extends TestCaseAbstract
                     ],
                 ),
             )->toArray();
-            self::assertEquals(TRUE, FALSE);
+            self::fail();
         } catch (Exception $e) {
             self::assertEquals(GridException::FILTER_COLS_ERROR, $e->getCode());
-            self::assertEquals(
+            self::assertSame(
                 "Column 'Unknown' cannot be used for filtering! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::filterCols'?",
                 $e->getMessage(),
             );
         }
 
-        $documentFilter = (new DocumentFilter($this->dm));
+        $documentFilter = new DocumentFilter($this->dm);
         $this->setProperty($documentFilter, 'searchableCols', []);
         try {
             $documentFilter->getData(
@@ -1809,17 +1809,17 @@ final class FilterTest extends TestCaseAbstract
                     ],
                 ),
             )->toArray();
-            self::assertEquals(TRUE, FALSE);
+            self::fail();
         } catch (Exception $e) {
             self::assertEquals(GridException::SEARCHABLE_COLS_ERROR, $e->getCode());
-            self::assertEquals(
+            self::assertSame(
                 "Column cannot be used for searching! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::searchableCols'?",
                 $e->getMessage(),
             );
         }
 
         $this->dm->getSchemaManager()->deleteDocumentIndexes(Document::class);
-        $documentFilter = (new DocumentFilter($this->dm));
+        $documentFilter = new DocumentFilter($this->dm);
         try {
             $documentFilter->getData(
                 new GridRequestDto(
@@ -1828,9 +1828,9 @@ final class FilterTest extends TestCaseAbstract
                     ],
                 ),
             )->toArray();
-            self::assertEquals(TRUE, FALSE);
+            self::fail();
         } catch (Throwable $e) {
-            self::assertEquals(
+            self::assertSame(
                 "Column cannot be used for searching! Missing TEXT index on 'MongoDataGridTests\Filter\DocumentFilter::searchableCols' fields!",
                 $e->getMessage(),
             );
@@ -2046,7 +2046,7 @@ final class FilterTest extends TestCaseAbstract
             ],
             $result,
         );
-        self::assertEquals(3, $dto->getTotal());
+        self::assertSame(3, $dto->getTotal());
 
         $dto    = new GridRequestDto(
             [
@@ -2416,16 +2416,16 @@ final class FilterTest extends TestCaseAbstract
                     ],
                 ),
             )->toArray();
-            self::assertEquals(TRUE, FALSE);
+            self::fail();
         } catch (Exception $e) {
             self::assertEquals(GridException::FILTER_COLS_ERROR, $e->getCode());
-            self::assertEquals(
+            self::assertSame(
                 "Column 'Unknown' cannot be used for filtering! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::filterCols'?",
                 $e->getMessage(),
             );
         }
 
-        $documentFilter = (new DocumentFilter($this->dm));
+        $documentFilter = new DocumentFilter($this->dm);
         $this->setProperty($documentFilter, 'searchableCols', []);
         try {
             $documentFilter->getData(
@@ -2445,10 +2445,10 @@ final class FilterTest extends TestCaseAbstract
                     ],
                 ),
             )->toArray();
-            self::assertEquals(TRUE, FALSE);
+            self::fail();
         } catch (Exception $e) {
             self::assertEquals(GridException::FILTER_COLS_ERROR, $e->getCode());
-            self::assertEquals(
+            self::assertSame(
                 "Column '_MODIFIER_SEARCH' cannot be used for filtering! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::filterCols'?",
                 $e->getMessage(),
             );
@@ -2470,9 +2470,9 @@ final class FilterTest extends TestCaseAbstract
                     ],
                 ),
             )->toArray();
-            self::assertEquals(TRUE, FALSE);
+            self::fail();
         } catch (LogicException $e) {
-            self::assertEquals("Advanced filter must have 'column', 'operator' and 'value' field!", $e->getMessage());
+            self::assertSame("Advanced filter must have 'column', 'operator' and 'value' field!", $e->getMessage());
         }
 
         $result = (new DocumentFilter($this->dm))->getData(
@@ -2892,7 +2892,7 @@ final class FilterTest extends TestCaseAbstract
             $dto->getParamsForHeader(),
         );
 
-        $document = (new DocumentFilter($this->dm));
+        $document = new DocumentFilter($this->dm);
 
         $this->setProperty($document, 'countQuery', NULL);
         $dto    = new GridRequestDto(
@@ -2936,7 +2936,7 @@ final class FilterTest extends TestCaseAbstract
             $dto->getParamsForHeader(),
         );
 
-        $document = (new DocumentFilter($this->dm));
+        $document = new DocumentFilter($this->dm);
         $this->setProperty($document, 'countQuery', NULL);
         $dto    = new GridRequestDto(
             [
@@ -2965,7 +2965,7 @@ final class FilterTest extends TestCaseAbstract
             $dto->getParamsForHeader(),
         );
 
-        $document = (new DocumentFilter($this->dm));
+        $document = new DocumentFilter($this->dm);
         $this->setProperty($document, 'countQuery', NULL);
         $dto    = new GridRequestDto(
             [

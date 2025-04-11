@@ -17,7 +17,7 @@ final class GridHandlerTraitTest extends TestCaseAbstract
 
     use GridHandlerTrait;
 
-    protected const DATABASE = 'datagrid-trait';
+    protected const string DATABASE = 'datagrid-trait';
 
     /**
      * @throws Exception

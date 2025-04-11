@@ -13,17 +13,17 @@ use Hanaboso\Utils\String\Json;
 class GridRequestDto implements GridRequestDtoInterface
 {
 
-    public const  ITEMS          = 'items';
-    public const  ITEMS_PER_PAGE = 'itemsPerPage';
-    public const  FILTER         = 'filter';
-    public const  NATIVE         = 'native';
-    public const  PAGE           = 'page';
-    public const  PAGING         = 'paging';
-    public const  TOTAL          = 'total';
-    public const  SORTER         = 'sorter';
-    public const  SEARCH         = 'search';
-    private const DEFAULT_LIMIT  = 10;
-    private const DIRECTION      = [GridFilterAbstract::ASCENDING, GridFilterAbstract::DESCENDING];
+    public const  string ITEMS          = 'items';
+    public const  string ITEMS_PER_PAGE = 'itemsPerPage';
+    public const  string FILTER         = 'filter';
+    public const  string NATIVE         = 'native';
+    public const  string PAGE           = 'page';
+    public const  string PAGING         = 'paging';
+    public const  string TOTAL          = 'total';
+    public const  string SORTER         = 'sorter';
+    public const  string SEARCH         = 'search';
+    private const int DEFAULT_LIMIT     = 10;
+    private const array DIRECTION       = [GridFilterAbstract::ASCENDING, GridFilterAbstract::DESCENDING];
 
     /**
      * @var mixed[]

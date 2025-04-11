@@ -1,7 +1,6 @@
 includes:
 	- vendor/hanaboso/php-check-utils/phpstan.neon
 parameters:
-	excludes_analyse:
 	ignoreErrors:
 		-
 			message: '#Type mixed in generic type Doctrine.* #'

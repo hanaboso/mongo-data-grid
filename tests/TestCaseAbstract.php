@@ -23,9 +23,9 @@ abstract class TestCaseAbstract extends TestCase
     use PrivateTrait;
     use RestoreErrorHandlersTrait;
 
-    protected const   TEMP_DIR       = '%s/../var//Doctrine2.ODM';
-    protected const   CLIENT_TYPEMAP = ['root' => 'array', 'document' => 'array'];
-    protected const   DATABASE       = 'datagrid';
+    protected const string TEMP_DIR      = '%s/../var//Doctrine2.ODM';
+    protected const array CLIENT_TYPEMAP = ['root' => 'array', 'document' => 'array'];
+    protected const string DATABASE      = 'datagrid';
 
     /**
      * @var DocumentManager
