@@ -33,6 +33,7 @@ trait GridHandlerTrait
                 'previousPage' => max(1, $page - 1),
                 'total'        => $total,
             ],
+            'search' => $dto->getSearch(),
             'sorter' => $dto->getOrderBy(),
         ];
     }

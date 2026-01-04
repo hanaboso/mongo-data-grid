@@ -6,13 +6,12 @@ use DateTime;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * Class Document
+ * Class AggregationDocument
  *
  * @package MongoDataGridTests\Document
  */
 #[ODM\Document]
-#[ODM\Index(['string' => 'text', 'int' => 'text', 'float' => 'text'])]
-final class Document
+final class AggregationDocument
 {
 
     /**
@@ -52,7 +51,7 @@ final class Document
     private DateTime $date;
 
     /**
-     * Document constructor.
+     * AggregationDocument constructor.
      */
     public function __construct()
     {
@@ -82,7 +81,7 @@ final class Document
     /**
      * @param string $string
      *
-     * @return Document
+     * @return AggregationDocument
      */
     public function setString(string $string): self
     {
@@ -102,7 +101,7 @@ final class Document
     /**
      * @param int $int
      *
-     * @return Document
+     * @return AggregationDocument
      */
     public function setInt(int $int): self
     {
@@ -122,7 +121,7 @@ final class Document
     /**
      * @param float $float
      *
-     * @return Document
+     * @return AggregationDocument
      */
     public function setFloat(float $float): self
     {
@@ -142,7 +141,7 @@ final class Document
     /**
      * @param bool $bool
      *
-     * @return Document
+     * @return AggregationDocument
      */
     public function setBool(bool $bool): self
     {
@@ -162,7 +161,7 @@ final class Document
     /**
      * @param DateTime $date
      *
-     * @return Document
+     * @return AggregationDocument
      */
     public function setDate(DateTime $date): self
     {

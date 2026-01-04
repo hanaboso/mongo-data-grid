@@ -39,6 +39,7 @@ final class GridHandlerTraitTest extends TestCaseAbstract
                     'previousPage' => 1,
                     'total'        => 0,
                 ],
+                'search' => NULL,
                 'sorter' => [],
             ],
             $res,

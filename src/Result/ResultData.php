@@ -52,7 +52,16 @@ class ResultData
 
                             break;
                     }
+                } else {
+                    switch ($innerKey) {
+                        case '_id':
+                            $data[$key]['id'] = $data[$key][$innerKey];
+                            unset($data[$key][$innerKey]);
+
+                            break;
+                    }
                 }
+
             }
         }
 
