@@ -8,30 +8,26 @@ use Exception;
 use Hanaboso\MongoDataGrid\Exception\GridException;
 use Hanaboso\MongoDataGrid\GridFilterAbstract;
 use Hanaboso\MongoDataGrid\GridRequestDto;
-use LogicException;
-use MongoDataGridTests\Document\Document;
-use MongoDataGridTests\Filter\DocumentFilter;
+use MongoDataGridTests\Document\AggregationDocument;
+use MongoDataGridTests\Filter\AggregationDocumentFilter;
 use MongoDataGridTests\TestCaseAbstract;
 use MongoDB\Driver\Exception\CommandException;
-use Throwable;
 
 /**
- * Class FilterTest
+ * Class AggregationFilterTest
  *
  * @package MongoDataGridTests\Integration
  */
-final class FilterTest extends TestCaseAbstract
+final class AggregationFilterTest extends TestCaseAbstract
 {
 
     protected const string PAGING = 'paging';
 
-    private const string DATETIME = 'Y-m-d H:i:s';
-    private const string SORTER   = 'sorter';
-    private const string FILTER   = 'filter';
-    private const string PAGE     = 'page';
-    private const string SEARCH   = 'search';
-    private const string NATIVE   = 'native';
-
+    private const string DATETIME       = 'Y-m-d H:i:s';
+    private const string SORTER         = 'sorter';
+    private const string FILTER         = 'filter';
+    private const string PAGE           = 'page';
+    private const string SEARCH         = 'search';
     private const string ITEMS_PER_PAGE = 'itemsPerPage';
 
     /**
@@ -44,7 +40,7 @@ final class FilterTest extends TestCaseAbstract
      */
     public function testBasic(): void
     {
-        $result = (new DocumentFilter($this->dm))->getData(new GridRequestDto([]))->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData(new GridRequestDto([]))->toArray();
         self::assertEquals(
             [
                 [
@@ -128,7 +124,7 @@ final class FilterTest extends TestCaseAbstract
      */
     public function testSortations(): void
     {
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -217,7 +213,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -306,7 +302,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -395,7 +391,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -484,7 +480,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -573,7 +569,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -662,7 +658,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -751,7 +747,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -840,7 +836,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -929,7 +925,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -1018,7 +1014,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -1107,7 +1103,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::SORTER => [
@@ -1197,7 +1193,7 @@ final class FilterTest extends TestCaseAbstract
         );
 
         try {
-            (new DocumentFilter($this->dm))->getData(
+            (new AggregationDocumentFilter($this->dm))->getData(
                 new GridRequestDto(
                     [
                         self::SORTER => [
@@ -1213,7 +1209,7 @@ final class FilterTest extends TestCaseAbstract
         } catch (Exception $e) {
             self::assertEquals(GridException::MISSING_SORTATION_COLUMN, $e->getCode());
             self::assertSame(
-                "Column 'Unknown' cannot be used for sorting! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::orderCols'?",
+                "Column 'Unknown' cannot be used as sortation! Have you forgotten add it to 'MongoDataGridTests\Filter\AggregationDocumentFilter::getSortations'?",
                 $e->getMessage(),
             );
         }
@@ -1224,7 +1220,7 @@ final class FilterTest extends TestCaseAbstract
      */
     public function testConditions(): void
     {
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1253,7 +1249,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1282,7 +1278,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1311,7 +1307,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1347,7 +1343,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1389,7 +1385,7 @@ final class FilterTest extends TestCaseAbstract
                 ],
             ],
         );
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals(
             [
                 [
@@ -1431,7 +1427,7 @@ final class FilterTest extends TestCaseAbstract
         self::assertSame(3, $dto->getTotal());
 
         $dto    = new GridRequestDto([self::SEARCH => 'String 9']);
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals(
             [
                 [
@@ -1458,7 +1454,7 @@ final class FilterTest extends TestCaseAbstract
             $dto->getParamsForHeader(),
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1496,7 +1492,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1526,7 +1522,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1556,7 +1552,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1594,7 +1590,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1623,7 +1619,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1639,7 +1635,7 @@ final class FilterTest extends TestCaseAbstract
         )->toArray();
         self::assertEquals([], $result);
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1730,7 +1726,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             (new GridRequestDto(
                 [
                     self::FILTER => [
@@ -1760,7 +1756,7 @@ final class FilterTest extends TestCaseAbstract
                 self::SEARCH => 'Unknown',
             ],
         );
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals([], $result);
         self::assertEquals(
             [
@@ -1775,7 +1771,7 @@ final class FilterTest extends TestCaseAbstract
         );
 
         try {
-            (new DocumentFilter($this->dm))->getData(
+            (new AggregationDocumentFilter($this->dm))->getData(
                 new GridRequestDto(
                     [
                         self::FILTER => [
@@ -1794,13 +1790,20 @@ final class FilterTest extends TestCaseAbstract
         } catch (Exception $e) {
             self::assertEquals(GridException::MISSING_CONDITION_COLUMN, $e->getCode());
             self::assertSame(
-                "Column 'Unknown' cannot be used for filtering! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::filterCols'?",
+                "Column 'Unknown' cannot be used as condition! Have you forgotten add it to 'MongoDataGridTests\Filter\AggregationDocumentFilter::getConditions'?",
                 $e->getMessage(),
             );
         }
 
-        $documentFilter = new DocumentFilter($this->dm);
-        $this->setProperty($documentFilter, 'searchableCols', []);
+        $documentFilter = $this
+            ->getMockBuilder(AggregationDocumentFilter::class)
+            ->setConstructorArgs([$this->dm])
+            ->onlyMethods(['getSearch'])
+            ->getMock();
+        $documentFilter
+            ->expects($this->once())
+            ->method('getSearch')
+            ->willReturn([]);
         try {
             $documentFilter->getData(
                 new GridRequestDto(
@@ -1813,25 +1816,10 @@ final class FilterTest extends TestCaseAbstract
         } catch (Exception $e) {
             self::assertEquals(GridException::MISSING_SEARCH_COLUMN, $e->getCode());
             self::assertSame(
-                "Column cannot be used for searching! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::searchableCols'?",
-                $e->getMessage(),
-            );
-        }
-
-        $this->dm->getSchemaManager()->deleteDocumentIndexes(Document::class);
-        $documentFilter = new DocumentFilter($this->dm);
-        try {
-            $documentFilter->getData(
-                new GridRequestDto(
-                    [
-                        self::SEARCH => 'Unknown',
-                    ],
+                sprintf(
+                    "Column cannot be used for searching! Have you forgotten add it to '%s::getSearch'?",
+                    $documentFilter::class,
                 ),
-            )->toArray();
-            self::fail();
-        } catch (Throwable $e) {
-            self::assertSame(
-                "Column cannot be used for searching! Missing TEXT index on 'MongoDataGridTests\Filter\DocumentFilter::searchableCols' fields!",
                 $e->getMessage(),
             );
         }
@@ -1842,7 +1830,7 @@ final class FilterTest extends TestCaseAbstract
      */
     public function testAdvancedConditions(): void
     {
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -1873,7 +1861,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -1904,7 +1892,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -1935,7 +1923,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -1972,7 +1960,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2018,7 +2006,7 @@ final class FilterTest extends TestCaseAbstract
                 ,
             ],
         );
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals(
             [
                 [
@@ -2063,7 +2051,7 @@ final class FilterTest extends TestCaseAbstract
                 ,
             ],
         );
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals(
             [
                 [
@@ -2078,7 +2066,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2116,7 +2104,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2147,7 +2135,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2178,7 +2166,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2216,7 +2204,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2247,7 +2235,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2270,7 +2258,7 @@ final class FilterTest extends TestCaseAbstract
         )->toArray();
         self::assertEquals([], $result);
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2363,7 +2351,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             (new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2395,11 +2383,11 @@ final class FilterTest extends TestCaseAbstract
                 self::SEARCH => 'Unknown',
             ],
         );
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals([], $result);
 
         try {
-            (new DocumentFilter($this->dm))->getData(
+            (new AggregationDocumentFilter($this->dm))->getData(
                 new GridRequestDto(
                     [
                         self::FILTER =>
@@ -2420,13 +2408,20 @@ final class FilterTest extends TestCaseAbstract
         } catch (Exception $e) {
             self::assertEquals(GridException::MISSING_CONDITION_COLUMN, $e->getCode());
             self::assertSame(
-                "Column 'Unknown' cannot be used for filtering! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::filterCols'?",
+                "Column 'Unknown' cannot be used as condition! Have you forgotten add it to 'MongoDataGridTests\Filter\AggregationDocumentFilter::getConditions'?",
                 $e->getMessage(),
             );
         }
 
-        $documentFilter = new DocumentFilter($this->dm);
-        $this->setProperty($documentFilter, 'searchableCols', []);
+        $documentFilter = $this
+            ->getMockBuilder(AggregationDocumentFilter::class)
+            ->setConstructorArgs([$this->dm])
+            ->onlyMethods(['getSearch'])
+            ->getMock();
+        $documentFilter
+            ->expects($this->once())
+            ->method('getSearch')
+            ->willReturn([]);
         try {
             $documentFilter->getData(
                 new GridRequestDto(
@@ -2449,13 +2444,16 @@ final class FilterTest extends TestCaseAbstract
         } catch (Exception $e) {
             self::assertEquals(GridException::MISSING_CONDITION_COLUMN, $e->getCode());
             self::assertSame(
-                "Column '_MODIFIER_SEARCH' cannot be used for filtering! Have you forgotten add it to 'MongoDataGridTests\Filter\DocumentFilter::filterCols'?",
+                sprintf(
+                    "Column '_MODIFIER_SEARCH' cannot be used as condition! Have you forgotten add it to '%s::getConditions'?",
+                    $documentFilter::class,
+                ),
                 $e->getMessage(),
             );
         }
 
         try {
-            (new DocumentFilter($this->dm))->getData(
+            (new AggregationDocumentFilter($this->dm))->getData(
                 new GridRequestDto(
                     [
                         self::FILTER =>
@@ -2471,11 +2469,14 @@ final class FilterTest extends TestCaseAbstract
                 ),
             )->toArray();
             self::fail();
-        } catch (LogicException $e) {
-            self::assertSame("Advanced filter must have 'column', 'operator' and 'value' field!", $e->getMessage());
+        } catch (GridException $e) {
+            self::assertSame(
+                "Missing one of required advanced filter fields ('column', 'operator' or 'value')!",
+                $e->getMessage(),
+            );
         }
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2513,7 +2514,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2554,7 +2555,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2596,7 +2597,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2644,7 +2645,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2687,7 +2688,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2753,7 +2754,7 @@ final class FilterTest extends TestCaseAbstract
             $result,
         );
 
-        $result = (new DocumentFilter($this->dm))->getData(
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
             new GridRequestDto(
                 [
                     self::FILTER =>
@@ -2815,7 +2816,7 @@ final class FilterTest extends TestCaseAbstract
                 ],
             ],
         );
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals(
             [
                 [
@@ -2859,7 +2860,7 @@ final class FilterTest extends TestCaseAbstract
                 ],
             ],
         ))->setItemsPerPage(2);
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals(
             [
                 [
@@ -2891,108 +2892,6 @@ final class FilterTest extends TestCaseAbstract
             ],
             $dto->getParamsForHeader(),
         );
-
-        $document = new DocumentFilter($this->dm);
-
-        $this->setProperty($document, 'countQuery', NULL);
-        $dto    = new GridRequestDto(
-            [
-                self::PAGING => [self::PAGE => '3', self::ITEMS_PER_PAGE => '2'],
-                self::SORTER    => [
-                    ['direction' => 'ASC', 'column' => 'id'],
-                ],
-            ],
-        );
-        $result = $document->getData($dto)->toArray();
-        self::assertEquals(
-            [
-                [
-                    'bool'   => TRUE,
-                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
-                    'float'  => 4.4,
-                    'id'     => $result[0]['id'],
-                    'int'    => 4,
-                    'string' => 'String 4',
-                ], [
-                    'bool'   => FALSE,
-                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
-                    'float'  => 5.5,
-                    'id'     => $result[1]['id'],
-                    'int'    => 5,
-                    'string' => 'String 5',
-                ],
-            ],
-            $result,
-        );
-        self::assertEquals(
-            [
-                'filter'       => '[]',
-                'itemsPerPage' => 2,
-                'page'         => 3,
-                'search'       => NULL,
-                'sorter'       => '[{"direction":"ASC","column":"id"}]',
-                'total'        => 10,
-            ],
-            $dto->getParamsForHeader(),
-        );
-
-        $document = new DocumentFilter($this->dm);
-        $this->setProperty($document, 'countQuery', NULL);
-        $dto    = new GridRequestDto(
-            [
-                self::FILTER =>
-                    [
-                        [
-                            [
-                                'column'   => 'string2',
-                                'operator' => GridFilterAbstract::EXIST,
-                            ],
-                        ],
-                    ],
-            ],
-        );
-        $result = $document->getData($dto)->toArray();
-        self::assertEquals([], $result);
-        self::assertEquals(
-            [
-                'filter'       => '[[{"column":"string2","operator":"EXIST"}]]',
-                'itemsPerPage' => 10,
-                'page'         => 1,
-                'search'       => NULL,
-                'sorter'       => NULL,
-                'total'        => 0,
-            ],
-            $dto->getParamsForHeader(),
-        );
-
-        $document = new DocumentFilter($this->dm);
-        $this->setProperty($document, 'countQuery', NULL);
-        $dto    = new GridRequestDto(
-            [
-                self::FILTER =>
-                    [
-                        [
-                            [
-                                'column'   => 'string',
-                                'operator' => GridFilterAbstract::NEXIST,
-                            ],
-                        ],
-                    ],
-            ],
-        );
-        $result = $document->getData($dto)->toArray();
-        self::assertEquals([], $result);
-        self::assertEquals(
-            [
-                'filter'       => '[[{"column":"string","operator":"NEXIST"}]]',
-                'itemsPerPage' => 10,
-                'page'         => 1,
-                'search'       => NULL,
-                'sorter'       => NULL,
-                'total'        => 0,
-            ],
-            $dto->getParamsForHeader(),
-        );
     }
 
     /**
@@ -3005,7 +2904,7 @@ final class FilterTest extends TestCaseAbstract
                 self::SEARCH => 'Unknown',
             ],
         );
-        $result = (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        $result = (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
         self::assertEquals([], $result);
         self::assertEquals(
             [
@@ -3030,9 +2929,15 @@ final class FilterTest extends TestCaseAbstract
                 self::SEARCH => 'Unknown',
             ],
         );
-        $f   = new DocumentFilter($this->dm);
-
-        $this->setProperty($f, 'filterCols', []);
+        $f   = $this
+            ->getMockBuilder(AggregationDocumentFilter::class)
+            ->setConstructorArgs([$this->dm])
+            ->onlyMethods(['getConditions'])
+            ->getMock();
+        $f
+            ->expects($this->once())
+            ->method('getConditions')
+            ->willReturn([]);
 
         self::expectException(GridException::class);
         self::expectExceptionCode(GridException::MISSING_SEARCH_COLUMN);
@@ -3050,7 +2955,7 @@ final class FilterTest extends TestCaseAbstract
 
         self::expectException(CommandException::class);
         self::expectExceptionCode(123);
-        (new DocumentFilter($this->dm))->getData($dto)->toArray();
+        (new AggregationDocumentFilter($this->dm))->getData($dto)->toArray();
     }
 
     /**
@@ -3145,302 +3050,6 @@ final class FilterTest extends TestCaseAbstract
     /**
      * @throws Exception
      */
-    public function testGetDataNoCountQuery(): void
-    {
-        $dto = new GridRequestDto(
-            [
-                self::SEARCH => 'Unknown',
-            ],
-        );
-        $f   = $this->getMockBuilder(DocumentFilter::class)
-            ->onlyMethods(['configCustomCountQuery'])
-            ->setConstructorArgs([$this->dm])
-            ->getMock();
-        $f->expects($this->once())->method('configCustomCountQuery')->willReturn(NULL);
-        $this->setProperty($f, 'dm', $this->dm);
-
-        $result = $f->getData($dto)->toArray();
-        self::assertEquals([], $result);
-        self::assertEquals(
-            [
-                'filter'       => '[]',
-                'itemsPerPage' => 10,
-                'page'         => 1,
-                'search'       => 'Unknown',
-                'sorter'       => NULL,
-                'total'        => 0,
-            ],
-            $dto->getParamsForHeader(),
-        );
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testGetGridResponse(): void
-    {
-        $dto    = new GridRequestDto([]);
-        $result = GridFilterAbstract::getGridResponse($dto, (new DocumentFilter($this->dm))->getData($dto)->toArray());
-
-        $result['items'] = [];
-
-        self::assertEquals(
-            [
-                'filter' => [],
-                'items'  => [],
-                'paging' => [
-                    'itemsPerPage' => 10,
-                    'lastPage'     => 1,
-                    'nextPage'     => 1,
-                    'page'         => 1,
-                    'previousPage' => 1,
-                    'total'        => 10,
-                ],
-                'search' => NULL,
-                'sorter' => [],
-            ],
-            $result,
-        );
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testNativeQuery(): void
-    {
-        $dto    = new GridRequestDto(
-            [
-                self::FILTER => [
-                    [
-                        [
-                            'column'   => 'int',
-                            'operator' => 'EQ',
-                            'value'    => [4],
-                        ],
-                    ],
-                ],
-                self::NATIVE => ['string' => 'String 4'],
-                self::SEARCH => 'string',
-                self::SORTER => [
-                    [
-                        'column'    => 'id',
-                        'direction' => 'ASC',
-                    ],
-                ],
-            ],
-        );
-        $result = GridFilterAbstract::getGridResponse($dto, (new DocumentFilter($this->dm))->getData($dto)->toArray());
-
-        self::assertEquals(
-            [
-                'filter' => [
-                    [
-                        [
-                            'column'   => 'int',
-                            'operator' => 'EQ',
-                            'value'    => [4],
-                        ],
-                    ],
-                ],
-                'items'  => [
-                    [
-                        'bool'   => TRUE,
-                        'date'   => $result['items'][0]['date'],
-                        'float'  => 4.4,
-                        'id'     => $result['items'][0]['id'],
-                        'int'    => 4,
-                        'string' => 'String 4',
-                    ],
-                ],
-                'paging' => [
-                    'itemsPerPage' => 10,
-                    'lastPage'     => 1,
-                    'nextPage'     => 1,
-                    'page'         => 1,
-                    'previousPage' => 1,
-                    'total'        => 1,
-                ],
-                'search' => 'string',
-                'sorter' => [
-                    [
-                        'column'    => 'id',
-                        'direction' => 'ASC',
-                    ],
-                ],
-            ],
-            $result,
-        );
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testNativeConditions(): void
-    {
-        $dto = new GridRequestDto(
-            [
-                self::FILTER => [
-                    [
-                        [
-                            'column'   => 'int',
-                            'operator' => 'EQ',
-                            'value'    => [4],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'NEQ',
-                            'value'    => [4],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'GT',
-                            'value'    => [4],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'GTE',
-                            'value'    => [4],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'LT',
-                            'value'    => [4],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'LTE',
-                            'value'    => [4],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'IN',
-                            'value'    => [4],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'NIN',
-                            'value'    => [4],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'BETWEEN',
-                            'value'    => [4, 5],
-                        ],
-                        [
-                            'column'   => 'int',
-                            'operator' => 'NBETWEEN',
-                            'value'    => [4, 5],
-                        ],
-                        [
-                            'column'   => 'string',
-                            'operator' => 'LIKE',
-                            'value'    => ['s'],
-                        ],
-                        [
-                            'column'   => 'string',
-                            'operator' => 'STARTS',
-                            'value'    => ['s'],
-                        ],
-                        [
-                            'column'   => 'string',
-                            'operator' => 'ENDS',
-                            'value'    => ['s'],
-                        ],
-                        [
-                            'column'   => 'string',
-                            'operator' => 'EMPTY',
-                            'value'    => [],
-                        ],
-                        [
-                            'column'   => 'string',
-                            'operator' => 'NEMPTY',
-                            'value'    => [],
-                        ],
-                    ],
-                ],
-                self::NATIVE => ['string' => 'String 4'],
-            ],
-        );
-
-        $result = GridFilterAbstract::getGridResponse($dto, (new DocumentFilter($this->dm))->getData($dto)->toArray());
-        self::assertNotEmpty($result['items'] ?? []);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testNativeConditionBetweenError(): void
-    {
-        self::expectExceptionMessage('BETWEEN requires 2 values');
-        $dto = new GridRequestDto(
-            [
-                self::FILTER => [
-                    [
-                        [
-                            'column'   => 'int',
-                            'operator' => 'BETWEEN',
-                            'value'    => [4],
-                        ],
-                    ],
-                ],
-                self::NATIVE => ['string' => 'String 4'],
-            ],
-        );
-
-        GridFilterAbstract::getGridResponse($dto, (new DocumentFilter($this->dm))->getData($dto)->toArray());
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testNativeConditionNbetweenError(): void
-    {
-        self::expectExceptionMessage('NBETWEEN requires 2 values');
-        $dto = new GridRequestDto(
-            [
-                self::FILTER => [
-                    [
-                        [
-                            'column'   => 'int',
-                            'operator' => 'NBETWEEN',
-                            'value'    => [4],
-                        ],
-                    ],
-                ],
-                self::NATIVE => ['string' => 'String 4'],
-            ],
-        );
-
-        GridFilterAbstract::getGridResponse($dto, (new DocumentFilter($this->dm))->getData($dto)->toArray());
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testNativeConditionOperatorError(): void
-    {
-        self::expectExceptionMessage('unknown operator [losos]');
-        $dto = new GridRequestDto(
-            [
-                self::FILTER => [
-                    [
-                        [
-                            'column'   => 'int',
-                            'operator' => 'losos',
-                            'value'    => [4],
-                        ],
-                    ],
-                ],
-                self::NATIVE => ['string' => 'String 4'],
-            ],
-        );
-
-        GridFilterAbstract::getGridResponse($dto, (new DocumentFilter($this->dm))->getData($dto)->toArray());
-    }
-
-    /**
-     * @throws Exception
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -3449,7 +3058,7 @@ final class FilterTest extends TestCaseAbstract
 
         for ($i = 0; $i < 10; $i++) {
             $this->dm->persist(
-                (new Document())
+                (new AggregationDocument())
                     ->setString(sprintf('String %s', $i))
                     ->setInt($i)
                     ->setFloat((float) sprintf('%s.%s', $i, $i))

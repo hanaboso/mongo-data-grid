@@ -4,10 +4,11 @@ namespace MongoDataGridTests;
 
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver;
 use Exception;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\PrivateTrait;
 use Hanaboso\PhpCheckUtils\PhpUnit\Traits\RestoreErrorHandlersTrait;
+use MongoDataGridTests\Document\AggregationDocument;
 use MongoDataGridTests\Document\Document;
 use MongoDB\Client;
 use PHPUnit\Framework\TestCase;
@@ -42,7 +43,7 @@ abstract class TestCaseAbstract extends TestCase
         $configuration->setHydratorNamespace('Hydrator');
         $configuration->setProxyDir(sprintf(self::TEMP_DIR, __DIR__));
         $configuration->setHydratorDir(sprintf(self::TEMP_DIR, __DIR__));
-        $configuration->setMetadataDriverImpl(AnnotationDriver::create([sprintf('%s/Document', __DIR__)]));
+        $configuration->setMetadataDriverImpl(AttributeDriver::create([sprintf('%s/Document', __DIR__)]));
         $configuration->setDefaultDB(static::DATABASE);
 
         $this->dm = DocumentManager::create(
@@ -56,6 +57,7 @@ abstract class TestCaseAbstract extends TestCase
         $this->dm->getClient()->dropDatabase(static::DATABASE);
         $this->dm->getSchemaManager()->createCollections();
         $this->dm->getSchemaManager()->ensureDocumentIndexes(Document::class);
+        $this->dm->getSchemaManager()->ensureDocumentIndexes(AggregationDocument::class);
     }
 
     /**
