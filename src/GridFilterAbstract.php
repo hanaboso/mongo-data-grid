@@ -453,7 +453,7 @@ abstract class GridFilterAbstract
                             $column,
                             static::class,
                         ),
-                        GridException::SORT_COLS_ERROR,
+                        GridException::MISSING_SORTATION_COLUMN,
                     );
                 }
 
@@ -559,7 +559,7 @@ abstract class GridFilterAbstract
                         "Column cannot be used for searching! Have you forgotten add it to '%s::searchableCols'?",
                         static::class,
                     ),
-                    GridException::SEARCHABLE_COLS_ERROR,
+                    GridException::MISSING_SEARCH_COLUMN,
                 );
             }
 
@@ -571,7 +571,7 @@ abstract class GridFilterAbstract
                             $column,
                             static::class,
                         ),
-                        GridException::SEARCHABLE_COLS_ERROR,
+                        GridException::MISSING_SEARCH_COLUMN,
                     );
                 }
 
@@ -645,7 +645,7 @@ abstract class GridFilterAbstract
                     $column,
                     static::class,
                 ),
-                GridException::FILTER_COLS_ERROR,
+                GridException::MISSING_CONDITION_COLUMN,
             );
         }
     }

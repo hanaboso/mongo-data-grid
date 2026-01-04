@@ -24,3 +24,4 @@ parameters:
 		classesAllowedToBeExtended:
 			- MongoDataGridTests\TestCaseAbstract
 			- Hanaboso\MongoDataGrid\GridFilterAbstract
+			- Hanaboso\MongoDataGrid\GridAggregationFilterAbstract
