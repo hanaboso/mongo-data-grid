@@ -10,10 +10,10 @@
         "ext-mbstring": "*",
         "ext-mongodb": "*",
         "doctrine/mongodb-odm": "^2.15",
-        "hanaboso/utils": "^1.6"
+        "hanaboso/utils": "^2.0"
     },
     "require-dev": {
-        "hanaboso/php-check-utils": "^1.7"
+        "hanaboso/php-check-utils": "^2.0"
     },
     "autoload": {
         "psr-4": {
