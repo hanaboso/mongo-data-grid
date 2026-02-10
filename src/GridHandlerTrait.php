@@ -20,7 +20,7 @@ trait GridHandlerTrait
     {
         $total    = $dto->getTotal();
         $page     = $dto->getPage();
-        $lastPage = intval($dto->getTotal() / $dto->getItemsPerPage()) + 1;
+        $lastPage = (int) max(1, ceil($dto->getTotal() / $dto->getItemsPerPage()));
 
         return [
             'filter' => $dto->getFilter(FALSE),

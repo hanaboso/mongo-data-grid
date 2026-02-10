@@ -1218,6 +1218,190 @@ final class AggregationFilterTest extends TestCaseAbstract
     /**
      * @throws Exception
      */
+    public function testAdvancedSortations(): void
+    {
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
+            new GridRequestDto(
+                [
+                    self::SORTER => [
+                        [
+                            'column'    => 'custom_string',
+                            'direction' => 'ASC',
+                        ],
+                    ],
+                ],
+            ),
+        )->toArray();
+        self::assertEquals(
+            [
+                [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->format(self::DATETIME),
+                    'float'  => 0.0,
+                    'id'     => $result[0]['id'],
+                    'int'    => 0,
+                    'string' => 'String 0',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 1.1,
+                    'id'     => $result[1]['id'],
+                    'int'    => 1,
+                    'string' => 'String 1',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 2.2,
+                    'id'     => $result[2]['id'],
+                    'int'    => 2,
+                    'string' => 'String 2',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 3.3,
+                    'id'     => $result[3]['id'],
+                    'int'    => 3,
+                    'string' => 'String 3',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 4.4,
+                    'id'     => $result[4]['id'],
+                    'int'    => 4,
+                    'string' => 'String 4',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 5.5,
+                    'id'     => $result[5]['id'],
+                    'int'    => 5,
+                    'string' => 'String 5',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 6.6,
+                    'id'     => $result[6]['id'],
+                    'int'    => 6,
+                    'string' => 'String 6',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 7.7,
+                    'id'     => $result[7]['id'],
+                    'int'    => 7,
+                    'string' => 'String 7',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 8.8,
+                    'id'     => $result[8]['id'],
+                    'int'    => 8,
+                    'string' => 'String 8',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('1 day')->format(self::DATETIME),
+                    'float'  => 9.9,
+                    'id'     => $result[9]['id'],
+                    'int'    => 9,
+                    'string' => 'String 9',
+                ],
+            ],
+            $result,
+        );
+
+        $result = (new AggregationDocumentFilter($this->dm))->getData(
+            new GridRequestDto(
+                [
+                    self::SORTER => [
+                        [
+                            'column'    => 'custom_string',
+                            'direction' => 'DESC',
+                        ],
+                    ],
+                ],
+            ),
+        )->toArray();
+        self::assertEquals(
+            [
+                [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->format(self::DATETIME),
+                    'float'  => 9.9,
+                    'id'     => $result[0]['id'],
+                    'int'    => 9,
+                    'string' => 'String 9',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 8.8,
+                    'id'     => $result[1]['id'],
+                    'int'    => 8,
+                    'string' => 'String 8',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 7.7,
+                    'id'     => $result[2]['id'],
+                    'int'    => 7,
+                    'string' => 'String 7',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 6.6,
+                    'id'     => $result[3]['id'],
+                    'int'    => 6,
+                    'string' => 'String 6',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 5.5,
+                    'id'     => $result[4]['id'],
+                    'int'    => 5,
+                    'string' => 'String 5',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 4.4,
+                    'id'     => $result[5]['id'],
+                    'int'    => 4,
+                    'string' => 'String 4',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 3.3,
+                    'id'     => $result[6]['id'],
+                    'int'    => 3,
+                    'string' => 'String 3',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 2.2,
+                    'id'     => $result[7]['id'],
+                    'int'    => 2,
+                    'string' => 'String 2',
+                ], [
+                    'bool'   => FALSE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 1.1,
+                    'id'     => $result[8]['id'],
+                    'int'    => 1,
+                    'string' => 'String 1',
+                ], [
+                    'bool'   => TRUE,
+                    'date'   => $this->today->modify('-1 day')->format(self::DATETIME),
+                    'float'  => 0.0,
+                    'id'     => $result[9]['id'],
+                    'int'    => 0,
+                    'string' => 'String 0',
+                ],
+            ],
+            $result,
+        );
+    }
+
+    /**
+     * @throws Exception
+     */
     public function testConditions(): void
     {
         $result = (new AggregationDocumentFilter($this->dm))->getData(

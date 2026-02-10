@@ -190,6 +190,14 @@ abstract class GridAggregationFilterAbstract
     }
 
     /**
+     * @return array<string, Closure(Builder): string[]>
+     */
+    protected function getSortationsCallbacks(): array
+    {
+        return [];
+    }
+
+    /**
      * @param GridRequestDtoInterface $dto
      * @param Builder                 $builder
      *
@@ -311,8 +319,10 @@ abstract class GridAggregationFilterAbstract
      */
     private function processSortations(GridRequestDtoInterface $dto, Builder $builder): void
     {
-        $sortationsConfig = $this->getSortations();
-        $sortations       = [];
+        $sortationsConfig          = $this->getSortations();
+        $sortationsCallbacksConfig = $this->getSortationsCallbacks();
+        $sortations                = [];
+        $unsets                    = [];
 
         foreach ($dto->getOrderBy() as $sortation) {
             $column    = $sortation[self::COLUMN];
@@ -320,6 +330,10 @@ abstract class GridAggregationFilterAbstract
 
             if (!isset($sortationsConfig[$column])) {
                 throw GridException::throwMissingSortationColumnException($column, static::class);
+            }
+
+            if (isset($sortationsCallbacksConfig[$column])) {
+                $unsets = [...$unsets, ...$sortationsCallbacksConfig[$column]($builder)];
             }
 
             $sortations[$sortationsConfig[$column]] = $direction;
@@ -330,6 +344,10 @@ abstract class GridAggregationFilterAbstract
         }
 
         $builder->sort($sortations);
+
+        if ($unsets !== []) {
+            $builder->unset(...$unsets);
+        }
     }
 
     /**

@@ -3,17 +3,8 @@ includes:
 parameters:
 	ignoreErrors:
 		-
-			message: '#Type mixed in generic type Doctrine.* #'
-			path:  src/GridFilterAbstract.php
-		-
-			message: '#Method Hanaboso\\MongoDataGrid\\GridFilterAbstract#'
-			path:  src/GridFilterAbstract.php
-		-
-			message: '#Call to method findAll.* #'
-			path:  tests/Integration/DatabaseConfigurationTest.php
-		-
-			message: '#Parameter \#1 \$driverImpl of method#'
-			path:  tests/TestCaseAbstract.php
+			message: '#Call to method .* of internal class Doctrine\\ODM\\MongoDB\\Aggregation\\Stage\\Operator#'
+			path:  tests/Filter/AggregationDocumentFilter.php
 		-
 			message: '#Method .* never returns null so it can be removed from the return type#'
 			path:  tests/Filter/DocumentFilter.php
