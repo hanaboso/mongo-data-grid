@@ -50,12 +50,13 @@ final class AggregationDocumentFilter extends GridAggregationFilterAbstract
     protected function getSortations(): array
     {
         return [
-            'bool'   => 'bool',
-            'date'   => 'date',
-            'float'  => 'float',
-            'id'     => '_id',
-            'int'    => 'int',
-            'string' => 'string',
+            'bool'          => 'bool',
+            'custom_string' => 'string',
+            'date'          => 'date',
+            'float'         => 'float',
+            'id'            => '_id',
+            'int'           => 'int',
+            'string'        => 'string',
         ];
     }
 
@@ -108,6 +109,23 @@ final class AggregationDocumentFilter extends GridAggregationFilterAbstract
                 $operator;
 
                 $expr->field($name)->equals($value[0] ?? $value);
+            },
+        ];
+    }
+
+    /**
+     * @return array<string, Closure(Builder): string[]>
+     */
+    protected function getSortationsCallbacks(): array
+    {
+        return [
+            'custom_string' => static function (Builder $builder): array {
+                $builder
+                    ->addFields()
+                    ->field('customString')
+                    ->expression('$string');
+
+                return ['customString'];
             },
         ];
     }

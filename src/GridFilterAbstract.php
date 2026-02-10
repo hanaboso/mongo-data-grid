@@ -208,7 +208,7 @@ abstract class GridFilterAbstract
     }
 
     /**
-     * @return DocumentRepository<mixed>&ObjectRepository
+     * @return DocumentRepository<object>&ObjectRepository
      */
     public function getRepository(): ObjectRepository
     {
