@@ -1,7 +1,7 @@
 .PHONY: init-dev test
 
-DC=docker-compose
-DE=docker-compose exec -T php
+DC=docker compose
+DE=docker compose exec -T php
 
 .env:
 	sed -e "s/{DEV_UID}/$(shell if [ "$(shell uname)" = "Linux" ]; then echo $(shell id -u); else echo '1001'; fi)/g" \

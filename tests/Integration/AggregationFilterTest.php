@@ -3228,7 +3228,7 @@ final class AggregationFilterTest extends TestCaseAbstract
             ],
         );
 
-        self::assertNotEmpty($dto->getFilter(FALSE));
+        self::assertEquals([[['column' => 'a', 'operator' => 'b']]], $dto->getFilter(FALSE));
     }
 
     /**
