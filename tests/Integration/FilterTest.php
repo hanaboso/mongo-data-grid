@@ -3139,7 +3139,7 @@ final class FilterTest extends TestCaseAbstract
             ],
         );
 
-        self::assertNotEmpty($dto->getFilter(FALSE));
+        self::assertEquals([[['column' => 'a', 'operator' => 'b']]], $dto->getFilter(FALSE));
     }
 
     /**
@@ -3363,7 +3363,7 @@ final class FilterTest extends TestCaseAbstract
         );
 
         $result = GridFilterAbstract::getGridResponse($dto, (new DocumentFilter($this->dm))->getData($dto)->toArray());
-        self::assertNotEmpty($result['items'] ?? []);
+        self::assertCount(1, $result['items']);
     }
 
     /**
@@ -3371,7 +3371,7 @@ final class FilterTest extends TestCaseAbstract
      */
     public function testNativeConditionBetweenError(): void
     {
-        self::expectExceptionMessage('BETWEEN requires 2 values');
+        self::expectExceptionMessageIs('BETWEEN requires 2 values');
         $dto = new GridRequestDto(
             [
                 self::FILTER => [
@@ -3395,7 +3395,7 @@ final class FilterTest extends TestCaseAbstract
      */
     public function testNativeConditionNbetweenError(): void
     {
-        self::expectExceptionMessage('NBETWEEN requires 2 values');
+        self::expectExceptionMessageIs('NBETWEEN requires 2 values');
         $dto = new GridRequestDto(
             [
                 self::FILTER => [
@@ -3419,7 +3419,7 @@ final class FilterTest extends TestCaseAbstract
      */
     public function testNativeConditionOperatorError(): void
     {
-        self::expectExceptionMessage('unknown operator [losos]');
+        self::expectExceptionMessageIs('unknown operator [losos]');
         $dto = new GridRequestDto(
             [
                 self::FILTER => [

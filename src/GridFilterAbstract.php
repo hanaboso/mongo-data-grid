@@ -350,9 +350,9 @@ abstract class GridFilterAbstract
      * @param GridRequestDtoInterface $dto
      *
      * @return ResultData
-     * @throws MongoDBException
-     * @throws GridException
      * @throws Exception
+     * @throws GridException
+     * @throws MongoDBException
      */
     private function nativeQuery(GridRequestDtoInterface $dto): ResultData
     {

@@ -13,7 +13,7 @@ before_script:
 test:
     stage: test
     script:
-        - export COMPOSE_PROJECT_NAME="${CI_PIPELINE_ID}-mongoDataGrid"
+        - export COMPOSE_PROJECT_NAME="${CI_PIPELINE_ID}-mongodatagrid"
         - make test
 
 mirror:
@@ -27,5 +27,5 @@ cleanup:
     stage: cleanup
     when: always
     script:
-        - export COMPOSE_PROJECT_NAME="${CI_PIPELINE_ID}-mongoDataGrid"
+        - export COMPOSE_PROJECT_NAME="${CI_PIPELINE_ID}-mongodatagrid"
         - make docker-down-clean || echo "cleanup phase failed"
